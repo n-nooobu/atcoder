@@ -1,5 +1,5 @@
-N = int(input())
-A = list(map(int, input().split(' ')))
+N = int(input())  # N
+A = list(map(int, input().split(' ')))  # A1 A2 A3 ... An
 Q = int(input())
 BC = [list(map(int, list(input().split(' ')))) for i in range(Q)]
 
