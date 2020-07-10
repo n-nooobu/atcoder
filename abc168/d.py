@@ -1,23 +1,25 @@
-import itertools
 from collections import deque
 
 N, M = map(int, input().split())
-AB = [list(map(int, input().split())) for i in range(M)]
+g = [[] for i in range(N)]
+for i in range(M):
+    A, B = map(int, input().split())
+    g[A-1].append(B)
+    g[B-1].append(A)
 
 ans = [-1] * N
 ans[0] = 0
 d = deque([1])
-while any(i == -1 for i in ans) and any(i != [-1, -1] for i in AB):
+while len(d) != 0:
     now = d[0]
-    for i in itertools.product(range(M), range(2)):
-        if AB[i[0]][i[1]] == now:
-            if ans[AB[i[0]][1 - i[1]] - 1] == -1:
-                ans[AB[i[0]][1 - i[1]] - 1] = now
-                d.append(AB[i[0]][1 - i[1]])
-            AB[i[0]] = [-1, -1]
     d.popleft()
+    for i in g[now-1]:
+        if ans[i-1] != -1:
+            continue
+        ans[i-1] = now
+        d.append(i)
 
-if any(i == -1 for i in ans):
+if -1 in ans:
     print('No')
 else:
     print('Yes')
