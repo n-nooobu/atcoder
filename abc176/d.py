@@ -16,19 +16,20 @@ sys.stdin = io.StringIO(_INPUT)
 
 from collections import deque
 
-H, W = map(int, list(input().split()))
-Ch, Cw = map(int, list(input().split()))
+H, W = map(int, input().split())
+Ch, Cw = map(int, input().split())
 Ch -= 1
 Cw -= 1
-Dh, Dw = map(int, list(input().split()))
+Dh, Dw = map(int, input().split())
 Dh -= 1
 Dw -= 1
-S = [list(input()) for _ in range(H)]
+S = [input() for _ in range(H)]
 
 dh = [-1, 0, 0, 1]
 dw = [0, 1, -1, 0]
 
-seen = [[None] * W for _ in range(H)]
+INF = pow(10, 10)
+seen = [[INF] * W for _ in range(H)]
 seen[Ch][Cw] = 0
 q = deque()
 q.append([Ch, Cw])
@@ -42,7 +43,7 @@ while q:
             continue
         if S[nh][nw] == '#':
             continue
-        if seen[nh][nw] is not None and seen[nh][nw] <= seen[th][tw]:
+        if seen[nh][nw] <= seen[th][tw]:
             continue
         seen[nh][nw] = seen[th][tw]
         q.append([nh, nw])
@@ -56,12 +57,12 @@ while q:
                 continue
             if S[nh][nw] == '#':
                 continue
-            if seen[nh][nw] is not None and seen[nh][nw] <= seen[th][tw] + 1:
+            if seen[nh][nw] <= seen[th][tw] + 1:
                 continue
             seen[nh][nw] = seen[th][tw] + 1
-            q.append([nh, nw])
+            q.appendleft([nh, nw])
 
-if seen[Dh][Dw] is not None:
-    print(seen[Dh][Dw])
-else:
+if seen[Dh][Dw] is INF:
     print(-1)
+else:
+    print(seen[Dh][Dw])

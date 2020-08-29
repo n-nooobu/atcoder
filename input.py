@@ -21,3 +21,6 @@ c = [input() for _ in range(H)]
 c = [list(input()) for _ in range(H)]
 # [['s', '#', '#', '#', '#'], ['.', '.', '.', '.', '#'], ['#', '#', '#', '#', '#'], ['#', '.', '.', '.', 'g']]
 # 文字を変えられる
+
+rcv = [list(map(int, input().split())) for i in range(K)]
+# [[1, 1, 3], [2, 1, 4], [1, 2, 5]]
