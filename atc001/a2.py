@@ -18,6 +18,7 @@ g.#.#.#.#.
 sys.stdin = io.StringIO(_INPUT)
 
 
+
 import sys
 sys.setrecursionlimit(10**7)
 
