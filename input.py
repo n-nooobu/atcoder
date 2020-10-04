@@ -26,6 +26,7 @@ rcv = [list(map(int, input().split())) for _ in range(K)]
 # [[1, 1, 3], [2, 1, 4], [1, 2, 5]]
 
 
+
 mod = 10 ** 9 + 7
 class Combination:
     def __init__(self, size):
@@ -95,3 +96,48 @@ class UnionFind:
 
     def __str__(self):  # ルート要素: [そのグループに含まれる要素のリスト]を文字列で返す
         return '\n'.join('{}: {}'.format(r, self.members(r)) for r in self.roots())
+
+
+
+class SegmentTree:
+    def __init__(self, n, segfunc=min, ele=10**10):
+        self.n, self.segfunc, self.ide_ele = n, segfunc, ele
+        self.num = 2 ** (n - 1).bit_length()
+        self.seg = [self.ide_ele] * 2 * self.num
+
+    def init(self, init_val):
+        for i in range(self.n):
+            self.seg[i + self.num - 1] = init_val[i]
+        for i in range(self.num - 2, -1, -1):
+            self.seg[i] = self.segfunc(self.seg[2 * i + 1], self.seg[2 * i + 2])
+
+    def update(self, k, x):
+        k += self.num - 1
+        self.seg[k] = x
+        while k:
+            k = (k - 1) // 2
+            self.seg[k] = self.segfunc(self.seg[k * 2 + 1], self.seg[k * 2 + 2])
+
+    def query(self, p, q):
+        if q <= p:
+            return self.ide_ele
+        p += self.num - 1
+        q += self.num - 2
+        res = self.ide_ele
+        while q - p > 1:
+            if p & 1 == 0:
+                res = self.segfunc(res, self.seg[p])
+            if q & 1 == 1:
+                res = self.segfunc(res, self.seg[q])
+                q -= 1
+            p = p // 2
+            q = (q - 1) // 2
+        if p == q:
+            res = self.segfunc(res, self.seg[p])
+        else:
+            res = self.segfunc(self.segfunc(res, self.seg[p]), self.seg[q])
+        return res
+
+    def get_val(self, k):
+        k += self.num - 1
+        return self.seg[k]
