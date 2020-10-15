@@ -14,14 +14,18 @@ n, k = map(int, input().split())
 
 mod = 10 ** 9 + 7
 
-if k >= n - 1:
+def combination(n, r):
     bunsi = 1
-    for i in range(n - 1):
-        bunsi = bunsi * (2 * n - 1 - i) % mod
+    for i in range(r):
+        bunsi = bunsi * (n - i) % mod
     bunbo = 1
-    for i in range(n - 1):
+    for i in range(r):
         bunbo = bunbo * (i + 1) % mod
     comb = bunsi * pow(bunbo, mod - 2, mod) % mod
-    print(comb)
+    return comb
+
+all_ = combination(2 * n - 1, n - 1)
+if k >= n - 1:
+
 else:
     
