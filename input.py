@@ -53,6 +53,17 @@ class Combination:
         return self.ncr(n + r - 1, n - 1)
 
 
+def combination(n, r):
+    bunsi = 1
+    for i in range(r):
+        bunsi = bunsi * (n - i) % mod
+    bunbo = 1
+    for i in range(r):
+        bunbo = bunbo * (i + 1) % mod
+    comb = bunsi * pow(bunbo, mod - 2, mod) % mod
+    return comb
+
+
 class UnionFind:
     def __init__(self, n):
         self.n = n
