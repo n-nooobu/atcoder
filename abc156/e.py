@@ -24,8 +24,10 @@ def combination(n, r):
     comb = bunsi * pow(bunbo, mod - 2, mod) % mod
     return comb
 
-all_ = combination(2 * n - 1, n - 1)
-if k >= n - 1:
-
+ans = combination(2 * n - 1, n - 1)
+if n - k <= 1:
+    print(ans)
 else:
-    
+    m = n - k - 1
+    ans = (ans - combination(n, m) * combination(n + m - 1, m - 1)) % mod
+    print(ans)
