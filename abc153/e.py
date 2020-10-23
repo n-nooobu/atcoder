@@ -30,5 +30,4 @@ for i in range(N):
 INF = 10 ** 9
 dp = [INF] * (H + max(A) + 1)
 dp[0] = 0
-for i in range(1, len(dp)):
-    
+
