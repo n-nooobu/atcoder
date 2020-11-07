@@ -64,6 +64,22 @@ def combination(n, r):
     return comb
 
 
+def prime_factorization(n):
+    prime = []
+    t = n
+    for i in range(2, round(n ** 0.5) + 1):
+        if t % i != 0:
+            continue
+        count = 0
+        while t % i == 0:
+            count += 1
+            t //= i
+        prime.append([i, count])
+    if t != 1:
+        prime.append([t, 1])
+    return prime
+
+
 class UnionFind:
     def __init__(self, n):
         self.n = n
@@ -107,7 +123,6 @@ class UnionFind:
 
     def __str__(self):  # ルート要素: [そのグループに含まれる要素のリスト]を文字列で返す
         return '\n'.join('{}: {}'.format(r, self.members(r)) for r in self.roots())
-
 
 
 class SegmentTree:
