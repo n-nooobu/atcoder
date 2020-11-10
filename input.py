@@ -22,7 +22,7 @@ c = [list(input()) for _ in range(H)]
 # [['s', '#', '#', '#', '#'], ['.', '.', '.', '.', '#'], ['#', '#', '#', '#', '#'], ['#', '.', '.', '.', 'g']]
 # 文字を変えられる
 
-rcv = [list(map(int, input().split())) for _ in range(K)]
+rcv = [list(map(int, input().split())) for _ in range(N)]
 # [[1, 1, 3], [2, 1, 4], [1, 2, 5]]
 
 
