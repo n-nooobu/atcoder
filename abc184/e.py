@@ -41,6 +41,7 @@ dw = [0, 1, -1, 0]
 INF = pow(10, 10)
 seen = [[INF] * W for _ in range(H)]
 seen[s[0]][s[1]] = 0
+seen2 = [False] * 30
 q = deque()
 q.append([s[0], s[1]])
 while q:
@@ -55,11 +56,14 @@ while q:
         seen[nh][nw] = seen[th][tw] + 1
         q.append([nh, nw])
     if 'a' <= a[th][tw] <= 'z':
+        if seen2[ord(a[th][tw]) - 97]:
+            continue
         for i, (nh, nw) in enumerate(moji[ord(a[th][tw]) - 97]):
             if seen[nh][nw] <= seen[th][tw] + 1:
                 continue
             seen[nh][nw] = seen[th][tw] + 1
             q.append([nh, nw])
+        seen2[ord(a[th][tw]) - 97] = True
 
 if seen[g[0]][g[1]] == INF:
     print(-1)
