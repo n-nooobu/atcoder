@@ -3,48 +3,59 @@ import sys
 
 # input here
 _INPUT = """\
-4 6
-1 2 5
-1 3 10
-2 4 5
-3 4 10
-4 1 10
-1 1 10
+4 7
+1 2 10
+2 3 30
+1 4 15
+3 4 25
+3 4 20
+4 3 20
+4 3 30
 
 """
 sys.stdin = io.StringIO(_INPUT)
 
 
 
-from collections import defaultdict, deque
+from heapq import heappush, heappop
 
 N, M = map(int, input().split())
-ABC = [list(map(int, input().split())) for _ in range(M)]
-G = defaultdict(set)
+G = [[] for _ in range(N)]
 INF = 10 ** 9
-time = [[INF] * N for _ in range(N)]
+exist = [[0] * N for _ in range(N)]
 for i in range(M):
-    A = ABC[i][0] - 1
-    B = ABC[i][1] - 1
-    G[A].add(B)
-    time[A][B] = min(time[A][B], ABC[i][2])
-
-ans = [INF] * N
-for i in range(N):
-    seen = [False] * N
-    seen[i] = True
-    q = deque([[i, 0]])
-    while q:
-        t, s = q.popleft()
-        for j in G[t]:
-            if j == i:
-                ans[i] = min(ans[i], s + time[t][j])
-            if seen[j]:
-                continue
-            seen[j] = True
-            q.append([j, s + time[t][j]])
-    if ans[i] == INF:
-        ans[i] = -1
-        print(ans[i])
+    A, B, C = map(int, input().split())
+    if exist[A - 1][B - 1]:
+        if G[A - 1][exist[A - 1][B - 1] - 1][1] > C:
+            G[A - 1][exist[A - 1][B - 1] - 1][1] = C
     else:
-        print(ans[i])
+        G[A - 1].append([B - 1, C])
+        exist[A - 1][B - 1] = len(G[A - 1])
+
+def dijkstra(s, n):  # (始点, ノード数)
+    dist = [INF] * n
+    hq = []  # (distance, node)
+    for w, cost in G[s]:
+        dist[w] = cost
+        heappush(hq, [dist[w], w])
+    seen = [False] * n  # ノードが確定済かどうか
+    while hq:
+        v = heappop(hq)[1]  # 重み最小のノードをpopする
+        seen[v] = True  # ノードを確定させる
+        if v == s:
+            return dist
+        for w, cost in G[v]:  # ノードvに隣接しているノードwに対して
+            if seen[w]:
+                continue
+            if dist[v] + cost >= dist[w]:
+                continue
+            dist[w] = dist[v] + cost
+            heappush(hq, [dist[w], w])
+    return dist
+
+for i in range(N):
+    dist = dijkstra(i, N)
+    if dist[i] == INF:
+        print(-1)
+    else:
+        print(dist[i])
