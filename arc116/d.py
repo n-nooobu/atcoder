@@ -15,5 +15,4 @@ N, M = map(int, input().split())
 
 if M % 2:
     print(0)
-else:
 
