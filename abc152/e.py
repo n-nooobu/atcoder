@@ -11,39 +11,21 @@ sys.stdin = io.StringIO(_INPUT)
 
 
 
+import math
+
 N = int(input())
 A = list(map(int, input().split()))
-
 mod = 10 ** 9 + 7
 
-def prime_factorization(n):
-    prime = []
-    t = n
-    for i in range(2, round(n ** 0.5) + 1):
-        if t % i != 0:
-            continue
-        count = 0
-        while t % i == 0:
-            count += 1
-            t //= i
-        prime.append([i, count])
-    if t != 1:
-        prime.append([t, 1])
-    return prime
-
-primes = [0] * (max(A) + 1)
-prime_list = [[0] * (max(A) + 1) for _ in range(N)]
+lcm = 1
 for i in range(N):
-    prime = prime_factorization(A[i])
-    for j in range(len(prime)):
-        primes[prime[j][0]] = max(primes[prime[j][0]], prime[j][1])
-        prime_list[i][prime[j][0]] = prime[j][1]
+    lcm = lcm // math.gcd(lcm, A[i]) * A[i]
+lcm %= mod
 
 ans = 0
 for i in range(N):
-    t = 1
-    for j in range(2, len(primes)):
-        t = t * pow(j, primes[j] - prime_list[i][j], mod) % mod
-    ans = (ans + t) % mod
+    ie = pow(A[i], mod - 2, mod)
+    ans += lcm * ie
+    ans %= mod
 
 print(ans)
