@@ -29,8 +29,8 @@ rcv = [list(map(int, input().split())) for _ in range(N)]
 from collections import defaultdict
 
 G = defaultdict(set)
-for i in range(N):
-    A = ab[i][0] - 1
-    B = ab[i][1] - 1
+for idx in range(N):
+    A = AB[idx][0] - 1
+    B = AB[idx][1] - 1
     G[A].add(B)
     G[B].add(A)
